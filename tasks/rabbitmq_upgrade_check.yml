@@ -56,19 +56,6 @@
     - "{{ installed_rabbitmq_deb }}"
     - "{{ installed_rabbitmq_rpm }}"
 
-- name: Compare installed version of RabbitMQ with new version variable
-  fail:
-    msg: "To install a new major/minor version of RabbitMQ set '-e rabbitmq_upgrade=true'."
-  when:
-    - not rabbitmq_upgrade | bool
-    - installed_rabbitmq.rc == 0
-    - not installed_rabbitmq.stdout is search(rabbitmq_package_version)
-    - rabbitmq_install_method != 'distro'
-  tags:
-    - rabbitmq-package-deb
-    - rabbitmq-package-rpm
-    - rabbitmq-apt-packages
-
 - name: Including rabbitmq_upgrade_prep tasks
   include_tasks: rabbitmq_upgrade_prep.yml
   args:

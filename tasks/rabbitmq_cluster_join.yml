@@ -13,6 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+- name: Remove all files in RabbitMQ mnesia directory
+  file:
+    path: "/var/lib/rabbitmq/mnesia/"
+    owner: "rabbitmq"
+    group: "rabbitmq"
+    mode: "0760"
+    state: "{{ item }}"
+  with_items:
+    - absent
+
+- include_tasks: rabbitmq_restart.yml
+
 - name: Stop rabbitmq app
   shell: |
     rabbitmqctl stop_app
